@@ -15,7 +15,7 @@ library(tidyverse)
 
 ``` {r}
 
-cv_eduloss <- read_dta('data/learning_loss_covid_database.dta')
+data <- read_dta('data/learning_loss_covid_database.dta')
 
 # Scatter Plot + Line 
 ggplot(data, aes(x = weeks, y = loss, color = "Line")) + 
@@ -52,37 +52,51 @@ ggplot(data, aes(x = weeks, y = loss, color = "Line")) +
     geom_smooth(data, mapping = aes(x = weeks, y = loss))
 ```
 
+```{r}
+
+geom_col(mapping = aes(x = region_code, y = loss, fill = country)) 
+  scale_fill_manual(values = custom_colors) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
+
+
+```
 
 
 ```{r second, echo=FALSE}
 
 ####customcolors.....
 
-cv_eduloss %>%
+data %>%
   ggplot(mapping = aes(x = deaths, y = loss, color = region_code))+
-  geom_point()
+  geom_point() + 
+  geom_text
+  
          
-         
 
-  geom_col(mapping = aes(x = region_code, y = loss, fill = country)) 
-  scale_fill_manual(values = custom_colors) +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
+  
 
-
-cv_eduloss %>%
+data %>%
   ggplot() +
   geom_col(mapping = aes(x = deaths, y = vaccine, fill = region_code)) +
   
-  
-  geom_text
+
   
   country abbreviation col
 
 vaccine and death
   
-
 ```
 
+
+```{r}
+
+data %>%
+  ggplot(mapping = aes(x = "", y = internet, fill = region_code)) +
+  geom_bar(stat = "identity", width = 1) +
+  coord_polar(theta = "y") +
+  theme_void()
+
+```
 
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
