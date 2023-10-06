@@ -8,6 +8,7 @@ date: "2023-10-04"
 library(haven)
 library(ggplot2)
 library(tidyverse)
+library(ggrepel)
 
 ```
 
@@ -76,13 +77,23 @@ data %>%
 
 ####customcolors.....
 
+# Countries to label (replace with your selection)
+
+
+countries_to_label <- data %>%
+  filter(country %in% c("Nepal", "Hungary", "Argentina", "India", "Korea", "United States", "Kenya"))
+
 data %>%
-  ggplot(mapping = aes(x = deaths, y = loss, color = region_code))+
-  geom_point() 
+  ggplot() +
+  geom_point(mapping = aes(x = deaths, y = loss, color = region_code)) +
+  geom_text(filter(data, country %in% countries_to_label),
+            mapping = aes(x = deaths, y = loss, label = countries_to_label))
 
 
-  geom_text
-  
+data %>%
+  ggplot()+
+  geom_point(mapping = aes(x = deaths, y = loss, color = region_code)) +
+  geom_text(mapping = aes(x = deaths, y = loss, label = country))
 
 data %>%
   ggplot() +
