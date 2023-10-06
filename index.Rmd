@@ -54,9 +54,14 @@ ggplot(data, aes(x = weeks, y = loss, color = "Line")) +
 
 ```{r}
 
-geom_col(mapping = aes(x = region_code, y = loss, fill = country)) 
+custom_colors <- c("olivedrab3", "orange", "steelblue", "pink", "coral", "violet")
+
+data %>%
+  ggplot() +
+  geom_col(mapping = aes(x = region_code, y = loss)) +
   scale_fill_manual(values = custom_colors) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
+
 
 
 ```
@@ -68,11 +73,10 @@ geom_col(mapping = aes(x = region_code, y = loss, fill = country))
 
 data %>%
   ggplot(mapping = aes(x = deaths, y = loss, color = region_code))+
-  geom_point() + 
-  geom_text
-  
-         
+  geom_point() 
 
+
+  geom_text
   
 
 data %>%
