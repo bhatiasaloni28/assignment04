@@ -17,7 +17,6 @@ library(tidyverse)
 
 cv_eduloss <- read_dta('data/learning_loss_covid_database.dta')
 
-
 # Scatter Plot + Line 
 ggplot(data, aes(x = weeks, y = loss, color = "Line")) + 
   geom_point() + 
@@ -26,7 +25,9 @@ ggplot(data, aes(x = weeks, y = loss, color = "Line")) +
   xlab("Weeks Closed on Average in 2021") + 
   ylab("Decline in Test Scores (measured in standard deviation units)") +
   ggtitle("Decline in Test Scores due to School Closure") 
-  
+```
+
+```{r}
 # Line Graph 
   ggplot(data, aes(x = weeks, y = loss, color = "Line")) +
   geom_line(size = 1) +
@@ -42,12 +43,13 @@ ggplot(data, aes(x = weeks, y = loss, color = "Line")) +
   ggtitle("Line Graph") +
   labs(color = "Legend Title") 
 
+```
+
+```{r}
 # Another Version 
   ggplot() +
     geom_point(data, mapping = aes(x = weeks, y = loss)) +
     geom_smooth(data, mapping = aes(x = weeks, y = loss))
-  
- 
 ```
 
 
