@@ -2,7 +2,6 @@
 title: "index.Rmd"
 output: html_document
 date: "2023-10-04"
-
 ---
 
 ```{r setup, include=FALSE}
@@ -16,11 +15,8 @@ library(tidyverse)
 
 ``` {r}
 
+cv_eduloss <- read_dta('data/learning_loss_covid_database.dta')
 
-data <- read_dta('/Users/salonibhatia/Desktop/Semester III - Coursework /Intro to Data Science/learning_loss_covid_database.dta')
-
-
-cv_eduloss <- read_dta('Users/cristinapirela/Documents/Data Science/ assignment04/learning_loss_covid_database.dta')
 
 # Scatter Plot + Line 
 ggplot(data, aes(x = weeks, y = loss, color = "Line")) + 
@@ -58,17 +54,33 @@ ggplot(data, aes(x = weeks, y = loss, color = "Line")) +
 
 ```{r second, echo=FALSE}
 
+####customcolors.....
 
+cv_eduloss %>%
+  ggplot(mapping = aes(x = deaths, y = loss, color = region_code))+
+  geom_point()
+         
+         
 
-cv19_edu %>%
-  ggplot() +
-  geom_col(mapping = aes(x = region_code, y = loss, fill = region_code)) +
+  geom_col(mapping = aes(x = region_code, y = loss, fill = country)) 
   scale_fill_manual(values = custom_colors) +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
+
+
+cv_eduloss %>%
+  ggplot() +
+  geom_col(mapping = aes(x = deaths, y = vaccine, fill = region_code)) +
+  
+  
+  geom_text
+  
+  country abbreviation col
+
+vaccine and death
   
 
-
-
 ```
+
+
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
