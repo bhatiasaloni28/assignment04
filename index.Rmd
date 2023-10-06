@@ -1,6 +1,8 @@
 ---
 title: "index.Rmd"
 output: html_document
+date: "2023-10-04"
+
 ---
 
 ```{r setup, include=FALSE}
@@ -15,6 +17,42 @@ When you click the **Knit** button a document will be generated that includes bo
 
 ```{r cars}
 summary(cars)
+
+library("haven")
+data <- read_dta('/Users/salonibhatia/Desktop/Semester III - Coursework /Intro to Data Science/learning_loss_covid_database.dta')
+
+library(ggplot2)
+
+# Scatter Plot + Line 
+ggplot(data, aes(x = weeks, y = loss, color = "Line")) + 
+  geom_point() + 
+  geom_smooth(method = "lm", se = FALSE, color = "red", linetype = "dashed")
+  theme_minimal() +
+  xlab("Weeks Closed on Average in 2021") + 
+  ylab("Decline in Test Scores (measured in standard deviation units)") +
+  ggtitle("Decline in Test Scores due to School Closure") 
+  
+# Line Graph 
+  ggplot(data, aes(x = weeks, y = loss, color = "Line")) +
+  geom_line(size = 1) +
+  geom_point(size = 1, shape = 16) +
+  theme_minimal() +
+  theme(
+    panel.background = element_rect(fill = "lightgray"),
+    panel.grid.major = element_line(color = "white", size = 0.5),
+    legend.position = "top"  # Adjust legend position
+  ) +
+  xlab("weeks") +
+  ylab("Learning Loss") +
+  ggtitle("Line Graph") +
+  labs(color = "Legend Title") 
+
+# Another Version 
+  ggplot() +
+    geom_point(data, mapping = aes(x = weeks, y = loss)) +
+    geom_smooth(data, mapping = aes(x = weeks, y = loss))
+  
+ 
 ```
 
 ## Including Plots
