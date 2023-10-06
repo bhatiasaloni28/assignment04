@@ -58,11 +58,16 @@ custom_colors <- c("olivedrab3", "orange", "steelblue", "pink", "coral", "violet
 
 data %>%
   ggplot() +
-  geom_col(mapping = aes(x = region_code, y = loss)) +
+  geom_col(mapping = aes(x = region_code, y = loss, fill = region_code)) +
   scale_fill_manual(values = custom_colors) +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
-
-
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  labs(
+    title = "Decline in Test Scores Due to COVID school closures 2021",
+    subtitle = "Measured in Standard Deviations",
+    x = "Region",
+    y = "Decline in Test Scores"
+  ) + 
+  guides(fill = FALSE)
 
 ```
 
@@ -84,9 +89,7 @@ data %>%
   geom_col(mapping = aes(x = deaths, y = vaccine, fill = region_code)) +
   
 
-  
   country abbreviation col
-
 vaccine and death
   
 ```
