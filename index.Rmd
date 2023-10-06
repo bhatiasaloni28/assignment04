@@ -9,10 +9,12 @@ library(haven)
 library(ggplot2)
 library(tidyverse)
 library(ggrepel)
-
+library(dplyr)
 ```
 
+[Data Sources] (https://microdata.worldbank.org/index.php/catalog/3769/get-microdata)
 
+## (ADD TITLE HERE! Take out parantheses)
 
 ``` {r}
 
@@ -53,7 +55,14 @@ ggplot(data, aes(x = weeks, y = loss, color = "Line")) +
     geom_smooth(data, mapping = aes(x = weeks, y = loss))
 ```
 
-```{r}
+
+## Decline in Test Scores By Region During 2021 - Measured in Standard Deviation
+
+```{r, echo=FALSE}
+
+suppressWarnings({ 
+
+
 
 custom_colors <- c("olivedrab3", "orange", "steelblue", "pink", "coral", "violet")
 
@@ -63,50 +72,39 @@ data %>%
   scale_fill_manual(values = custom_colors) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
   labs(
-    title = "Decline in Test Scores Due to COVID school closures 2021",
-    subtitle = "Measured in Standard Deviations",
+    title = "Decline in Test Scores By Region 2021",
+    subtitle = "Due to COVID school closures",
     x = "Region",
     y = "Decline in Test Scores"
   ) + 
   guides(fill = FALSE)
 
+}) 
 ```
 
+
+## Death Versus Vaccination Rates By Region in 2021
 
 ```{r second, echo=FALSE}
 
-####customcolors.....
-
-# Countries to label (replace with your selection)
-
-
 countries_to_label <- data %>%
-  filter(country %in% c("Nepal", "Hungary", "Argentina", "India", "Korea", "United States", "Kenya"))
+  filter(country %in% c("Nepal", "Hungary", "Argentina", "India", "Korea", "United States", "Kenya", "China", "Germany"))
 
 data %>%
   ggplot() +
-  geom_point(mapping = aes(x = deaths, y = loss, color = region_code)) +
-  geom_text(filter(data, country %in% countries_to_label),
-            mapping = aes(x = deaths, y = loss, label = countries_to_label))
-
-
-data %>%
-  ggplot()+
-  geom_point(mapping = aes(x = deaths, y = loss, color = region_code)) +
-  geom_text(mapping = aes(x = deaths, y = loss, label = country))
-
-data %>%
-  ggplot() +
-  geom_col(mapping = aes(x = deaths, y = vaccine, fill = region_code)) +
-  
-
-  country abbreviation col
-vaccine and death
+  geom_point(mapping = aes(x = deaths, y = vac, color = region_code)) +
+  geom_text(data = countries_to_label, mapping = aes(x = deaths, y = vac, label = country)) + 
+  labs(
+    title = "Death Rate Average Compared to Vaccination Rate in 2021",
+    subtitle = "Data: https://ourworldindata.org/grapher/covid-vaccination-doses-per-capita",
+    x = "Deaths Rate Average",
+    y = "Vaccination Rate - Doses per Capita"
+  ) 
   
 ```
 
 
-```{r}
+```{r, echo=FALSE}
 
 data %>%
   ggplot(mapping = aes(x = "", y = internet, fill = region_code)) +
@@ -116,5 +114,3 @@ data %>%
 
 ```
 
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
