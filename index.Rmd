@@ -16,7 +16,8 @@ library(dplyr)
 
 [Data Sources] (https://microdata.worldbank.org/index.php/catalog/3769/get-microdata)
 
-## (ADD TITLE HERE! Take out parantheses)
+## Decline in Test Scores (measured in standard deviation) due to School Closure (measured in number of weeks)
+
 
 ``` {r}
 
@@ -26,10 +27,16 @@ data <- read_dta('data/learning_loss_covid_database.dta')
 ggplot(data, aes(x = weeks, y = loss, color = "Line")) + 
   geom_point() + 
   geom_smooth(method = "lm", se = FALSE, color = "red", linetype = "dashed")
-  theme_minimal() +
-  xlab("Weeks Closed on Average in 2021") + 
-  ylab("Decline in Test Scores (measured in standard deviation units)") +
-  ggtitle("Decline in Test Scores due to School Closure") 
+   theme_minimal(base_family = "Times New Roman") +
+  xlab("Average number of weeks of school closure in 2021") + 
+  `ylab("Decline in test scores") +
+  ggtitle("Decline in test scores due to the duration of school closure") +
+  theme(plot.title = element_text(hjust = 0.5),
+         legend.position = "top",
+         legend.title = element_blank(),
+         plot.background = element_rect(fill = "grey"),  
+         panel.background = element_rect(fill = "white"))
+  
 ```
 
 ```{r}
@@ -117,7 +124,13 @@ data %>%
   ggplot(mapping = aes(x = "", y = internet, fill = region_code)) +
   geom_bar(stat = "identity", width = 1) +
   coord_polar(theta = "y") +
-  theme_void()
+  theme_void(base_family = "Times New Roman") +
+   ggtitle("Internet penetration by region") +
+  theme(plot.title = element_text(hjust = 0.5),
+         legend.position = "right",
+         legend.title = element_blank(),
+         plot.background = element_rect(fill = "grey"),  
+         panel.background = element_rect(fill = "white")) 
 
 ```
 
