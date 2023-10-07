@@ -2,6 +2,8 @@
 title: "index.Rmd"
 output: html_document
 date: "2023-10-04"
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE}
@@ -58,24 +60,28 @@ ggplot(data, aes(x = weeks, y = loss, color = "Line")) +
 
 ## Decline in Test Scores By Region During 2021 - Measured in Standard Deviation
 
-```{r, echo=FALSE}
+### The below graph breaks down the decline in test scores during covid-19 by region. According to the data below, South Asia witnessed the highest steepest average decline of over 50%, with Latin America in second place at over 30% and Sub-Saharan Africa averaging around 35%. While these regions did experience the worst declines in grades during CV-19, it's possible some of these figures are skewed as each region is not wholly representative. For example, South Asia only includes Bangladesh, India, and Nepal. 
+
+```{r}
 
 suppressWarnings({ 
 
-
-
 custom_colors <- c("olivedrab3", "orange", "steelblue", "pink", "coral", "violet")
 
-data %>%
+region_mean <- data %>%
+  group_by(region_code) %>%
+  summarize(mean_loss = mean(loss))
+
+region_mean %>%
   ggplot() +
-  geom_col(mapping = aes(x = region_code, y = loss, fill = region_code)) +
+  geom_col(mapping = aes(x = region_code, y = mean_loss, fill = region_code)) +
   scale_fill_manual(values = custom_colors) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
   labs(
-    title = "Decline in Test Scores By Region 2021",
+    title = "Average Decline in Test Scores By Region 2021",
     subtitle = "Due to COVID school closures",
     x = "Region",
-    y = "Decline in Test Scores"
+    y = "Percent Decline in Test Scores"
   ) + 
   guides(fill = FALSE)
 
