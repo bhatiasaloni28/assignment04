@@ -91,6 +91,7 @@ region_mean %>%
 
 ## Death Versus Vaccination Rates By Region in 2021
 
+
 ```{r second, echo=FALSE}
 
 countries_to_label <- data %>%
