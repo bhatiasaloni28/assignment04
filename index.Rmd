@@ -103,7 +103,7 @@ data %>%
   labs(
     title = "Death Rate Average Compared to Vaccination Rate in 2021",
     subtitle = "Data: https://ourworldindata.org/grapher/covid-vaccination-doses-per-capita",
-    x = "Deaths Rate Average",
+    x = "Average Death Rate",
     y = "Vaccination Rate - Doses per Capita"
   ) 
   
