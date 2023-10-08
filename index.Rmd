@@ -16,18 +16,22 @@ library(dplyr)
 
 [Data Sources](https://microdata.worldbank.org/index.php/catalog/3769/get-microdata)
 
+## Overarching Narrative: 
+
+## Nationwide lockdown and school closures were common during the covid-19 pandemic. The Learning Loss Covid-19 database (2021) has been used to analyse the impact of school closures on learning outcomes across 41 countries that have been bifurcated into six regions including East Asia and the Pacific, Europe and Central Asia, Latin America and the Caribbean, South Asia, Sub-Saharan Africa and other Advanced Economies. The graph on deaths vs vaccination rate per region provides the larger picture of the the six regions during the pandemic, corroberated with the bar graph showing the average decline in test scores per region. One could assume that countries with stringent lockdowns would have shut schools for a longer duration. The scatter plot on decline in test scores due to school closures per country shows a positive relationship between the duration (in weeks) of school closures and declining test scores (in standard deviation). Since the pandemic led to the shift from learning in classrooms to remote/virual learning, the pie chart has been used to understand if regions with higher internet penetration expererienced a lower decline in learning outcomes.
+
 ## Decline in Test Scores (measured in standard deviation) due to School Closure (measured in number of weeks)
 
+## The graph below shows decline in test scores due to the number of weeks that schools remained closed in 41 countries. The upward sloping trend line depicts a positive relationship between declinee in test scores (measured in standard deviation) and weeks of school closure. The points of the scatter plot represent countries with varying levels of test score decline  and weeks of school closure. 
 
 ``` {r}
 
 data <- read_dta('data/learning_loss_covid_database.dta')
 
-# Scatter Plot + Line 
-ggplot(data, aes(x = weeks, y = loss, color = "Line")) + 
+ggplot(data, aes(x = weeks, y = loss, color = "Country")) + 
   geom_point() + 
   geom_smooth(method = "lm", se = FALSE, color = "red", linetype = "dashed") +
-  theme_minimal(base_family = "Times New Roman") +
+   theme_minimal(base_family = "Times New Roman") +
   xlab("Average number of weeks of school closure in 2021") + 
   ylab("Decline in test scores") +
   ggtitle("Decline in test scores due to the duration of school closure") +
@@ -37,35 +41,6 @@ ggplot(data, aes(x = weeks, y = loss, color = "Line")) +
          plot.background = element_rect(fill = "grey"),  
          panel.background = element_rect(fill = "white"))
   
-```
-
-```{r}
-# Line Graph 
-
-suppressWarnings({ 
-  ggplot(data, aes(x = weeks, y = loss, color = "Line")) +
-  geom_line(size = 1) +
-  geom_point(size = 1, shape = 16) +
-  theme_minimal() +
-  theme(
-    panel.background = element_rect(fill = "lightgray"),
-    panel.grid.major = element_line(color = "white", size = 0.5),
-    legend.position = "top"  # Adjust legend position
-  ) +
-  xlab("weeks") +
-  ylab("Learning Loss") +
-  ggtitle("Line Graph") +
-  labs(color = "Legend Title") 
-  
-})
-
-```
-
-```{r}
-# Another Version 
-  ggplot() +
-    geom_point(data, mapping = aes(x = weeks, y = loss)) +
-    geom_smooth(data, mapping = aes(x = weeks, y = loss))
 ```
 
 
@@ -94,7 +69,7 @@ region_mean %>%
     x = "Region",
     y = "Percent Decline in Test Scores"
   ) + 
-  guides(fill = FALSE)
+  guides(fill = FALSE) 
 
 }) 
 ```
@@ -122,6 +97,9 @@ data %>%
   
 ```
 
+## Internet Penetration by region 
+
+## The pie chart shows the %share of internet penetration by region. Since the study focuses on learning loss during covid-19, the graph could is useful to compare if countries with higher internet penetration had a lower learning loss. 
 
 ```{r, echo=FALSE}
 
@@ -142,6 +120,7 @@ internet_mean %>%
          legend.title = element_blank(),
          plot.background = element_rect(fill = "grey"),  
          panel.background = element_rect(fill = "white")) 
+         
 
 ```
 
