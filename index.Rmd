@@ -85,7 +85,13 @@ region_mean %>%
 
 ## Figure 3: Decline in Test Scores (measured in standard deviation) due to School Closure (measured in number of weeks)
 
+<<<<<<< HEAD
 #### The graph below shows decline in test scores due to the number of weeks that schools remained closed in 41 countries. The upward sloping trend line depicts a positive relationship between declinee in test scores (measured in standard deviation) and weeks of school closure. The points of the scatter plot represent countries with varying levels of test score decline  and weeks of school closure. 
+=======
+## Death Versus Vaccination Rates By Region in 2021
+
+#### The graph below depicts death and vaccination rates by regions, highlighting specific countries. While some Advanced Economies exhibited higher vaccination rates and death rates, such as the United States, it's important to note that factors like strict lockdown measures, travel constraints, and variations in data reporting can influence these outcomes. For example, China's stringent lockdowns and high vaccination rates contributed to lower death rates, whereas the US experienced high vaccination rates with varying levels of lockdown enforcement. Additionally, insufficient death reporting in some poorer countries due to administrative challenges is another significant variable to consider.
+>>>>>>> f4ec5168bbdf308a5769ba3d7802f39eccf5e44c
 
 ``` {r, echo=FALSE}
 
