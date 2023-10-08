@@ -1,5 +1,5 @@
 ---
-title: "index.Rmd"
+title: "Learning Loss due to Covid-19"
 output: html_document
 date: "2023-10-04"
 editor_options: 
@@ -16,17 +16,80 @@ library(dplyr)
 
 [Data Sources](https://microdata.worldbank.org/index.php/catalog/3769/get-microdata)
 
-## Overarching Narrative: 
+## Introduction 
 
-## Nationwide lockdown and school closures were common during the covid-19 pandemic. The Learning Loss Covid-19 database (2021) has been used to analyse the impact of school closures on learning outcomes across 41 countries that have been bifurcated into six regions including East Asia and the Pacific, Europe and Central Asia, Latin America and the Caribbean, South Asia, Sub-Saharan Africa and other Advanced Economies. The graph on deaths vs vaccination rate per region provides the larger picture of the the six regions during the pandemic, corroberated with the bar graph showing the average decline in test scores per region. One could assume that countries with stringent lockdowns would have shut schools for a longer duration. The scatter plot on decline in test scores due to school closures per country shows a positive relationship between the duration (in weeks) of school closures and declining test scores (in standard deviation). Since the pandemic led to the shift from learning in classrooms to remote/virual learning, the pie chart has been used to understand if regions with higher internet penetration expererienced a lower decline in learning outcomes.
+#### Nationwide lockdowns and school closures were common across countries during the covid-19 pandemic. The Learning Loss Covid-19 database (2021) has been used to analyse the impact of school closures on learning outcomes in schools across 41 countries that have been bifurcated into six regions including East Asia and the Pacific, Europe and Central Asia, Latin America and the Caribbean, South Asia, Sub-Saharan Africa and other Advanced Economies. Figure 1 with deaths vs vaccination rate per region depicts a snapshot of the six regions during the pandemic, corroberated by Figure 2 with a bar graph showing the average decline in test scores per region. One could assume that countries with stringent lockdowns would have shut schools for a longer duration. Figure 3 with the scatter plot on decline in test scores due to school closures shows a positive relationship between the duration (in weeks) of school closures and declining test scores (in standard deviation) on a country level. Since the pandemic led to the shift from classroom-based learning to remote learning, Figure 4 with the pie chart shows the percentage of internet penetration in each of the six regions. This information could be used to understand the association between internet penetration and learning outcomes. 
 
-## Decline in Test Scores (measured in standard deviation) due to School Closure (measured in number of weeks)
+## Figure 1: Death Versus Vaccination Rates By Region in 2021
 
-## The graph below shows decline in test scores due to the number of weeks that schools remained closed in 41 countries. The upward sloping trend line depicts a positive relationship between declinee in test scores (measured in standard deviation) and weeks of school closure. The points of the scatter plot represent countries with varying levels of test score decline  and weeks of school closure. 
+#### The graph below depicts death and vaccination rates by regions, highlighting specific countries. While some Advanced Economies exhibited higher vaccination rates and death rates, such as India, Nepal, and Kenya, it's important to note that factors like strict lockdown measures, travel constraints, and variations in data reporting can influence these outcomes. For example, China's stringent lockdowns and high vaccination rates contributed to lower death rates, whereas the US experienced high vaccination rates with varying levels of lockdown enforcement. Additionally, insufficient death reporting in some poorer countries due to administrative challenges is another significant variable to consider.
 
-``` {r}
+```{r second, echo=FALSE}
 
 data <- read_dta('data/learning_loss_covid_database.dta')
+
+countries_to_label <- data %>%
+  filter(country %in% c("Nepal", "Hungary", "Argentina", "India", "Korea", "United States", "Kenya", "China", "Germany"))
+
+data %>%
+  ggplot() +
+  geom_point(mapping = aes(x = deaths, y = vac, color = region_code)) +
+  geom_text(data = countries_to_label, mapping = aes(x = deaths, y = vac, label = country)) + 
+  theme_minimal(base_family = "Times New Roman") +
+  labs(
+    title = "Death Rate Average Compared to Vaccination Rate in 2021",
+    subtitle = "Data: https://ourworldindata.org/grapher/covid-vaccination-doses-per-capita",
+    x = "Average Death Rate",
+    y = "Vaccination Rate - Doses per Capita") +
+theme(plot.title = element_text(hjust = 0.5),
+         legend.position = "top",
+         legend.title = element_blank(),
+          plot.background = element_rect(fill = "white"),  
+          panel.background = element_rect(fill = "grey"),
+          panel.grid.major = element_line(color = "white"),
+          panel.grid.minor = element_line(color = "white"))
+  
+```
+
+## Figure 2: Decline in Test Scores By Region During 2021 - Measured in Standard Deviation
+
+#### The below graph breaks down the decline in test scores during covid-19 by region. According to the data below, South Asia witnessed the highest steepest average decline of over 50%, with Latin America in second place at over 30% and Sub-Saharan Africa averaging around 35%. While these regions did experience the worst declines in grades during CV-19, it's possible some of these figures are skewed as each region is not wholly representative. For example, South Asia only includes Bangladesh, India, and Nepal. 
+
+```{r, echo=FALSE}
+
+suppressWarnings({ 
+
+custom_colors <- c("olivedrab3", "orange", "steelblue", "pink", "coral", "violet")
+
+region_mean <- data %>%
+  group_by(region_code) %>%
+  summarize(mean_loss = mean(loss))
+
+region_mean %>%
+  ggplot() +
+  geom_col(mapping = aes(x = region_code, y = mean_loss, fill = region_code), color = "grey") +
+  scale_fill_manual(values = custom_colors) +
+  theme_minimal(base_family = "Times New Roman") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1), panel.border = element_rect(color = "grey", fill = NA, size = 0.5), 
+        plot.background = element_rect(color = "black", fill = NA, size = 0.5)) +
+  labs(
+    title = "Average Decline in Test Scores By Region 2021",
+    subtitle = "Due to COVID school closures",
+    x = "Region",
+    y = "Percent Decline in Test Scores"
+  ) + 
+  guides(fill = FALSE)
+
+}) 
+```
+
+## Figure 3: Decline in Test Scores (measured in standard deviation) due to School Closure (measured in number of weeks)
+
+#### The graph below shows decline in test scores due to the number of weeks that schools remained closed in 41 countries. The upward sloping trend line depicts a positive relationship between declinee in test scores (measured in standard deviation) and weeks of school closure. The points of the scatter plot represent countries with varying levels of test score decline  and weeks of school closure. 
+
+``` {r, echo=FALSE}
+
+suppressWarnings({ 
 
 ggplot(data, aes(x = weeks, y = loss, color = "Country")) + 
   geom_point() + 
@@ -40,66 +103,12 @@ ggplot(data, aes(x = weeks, y = loss, color = "Country")) +
          legend.title = element_blank(),
          plot.background = element_rect(fill = "grey"),  
          panel.background = element_rect(fill = "white"))
-  
-```
-
-
-## Decline in Test Scores By Region During 2021 - Measured in Standard Deviation
-
-#### The below graph breaks down the decline in test scores during covid-19 by region. According to the data below, South Asia witnessed the highest steepest average decline of over 50%, with Latin America in second place at over 30% and Sub-Saharan Africa averaging around 35%. While these regions did experience the worst declines in grades during CV-19, it's possible some of these figures are skewed as each region is not wholly representative. For example, South Asia only includes Bangladesh, India, and Nepal. 
-
-```{r}
-
-suppressWarnings({ 
-
-custom_colors <- c("olivedrab3", "orange", "steelblue", "pink", "coral", "violet")
-
-region_mean <- data %>%
-  group_by(region_code) %>%
-  summarize(mean_loss = mean(loss))
-
-region_mean %>%
-  ggplot() +
-  geom_col(mapping = aes(x = region_code, y = mean_loss, fill = region_code)) +
-  scale_fill_manual(values = custom_colors) +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-  labs(
-    title = "Average Decline in Test Scores By Region 2021",
-    subtitle = "Due to COVID school closures",
-    x = "Region",
-    y = "Percent Decline in Test Scores"
-  ) + 
-  guides(fill = FALSE) 
-
 }) 
 ```
 
+## Figure 4: Internet Penetration by region 
 
-## Death Versus Vaccination Rates By Region in 2021
-
-#### The graph below depicts death and vaccination rates by regions, highlighting specific countries. While some Advanced Economies exhibited higher vaccination rates and death rates, such as India, Nepal, and Kenya, it's important to note that factors like strict lockdown measures, travel constraints, and variations in data reporting can influence these outcomes. For example, China's stringent lockdowns and high vaccination rates contributed to lower death rates, whereas the US experienced high vaccination rates with varying levels of lockdown enforcement. Additionally, insufficient death reporting in some poorer countries due to administrative challenges is another significant variable to consider.
-
-```{r second, echo=FALSE}
-
-countries_to_label <- data %>%
-  filter(country %in% c("Nepal", "Hungary", "Argentina", "India", "Korea", "United States", "Kenya", "China", "Germany"))
-
-data %>%
-  ggplot() +
-  geom_point(mapping = aes(x = deaths, y = vac, color = region_code)) +
-  geom_text(data = countries_to_label, mapping = aes(x = deaths, y = vac, label = country)) + 
-  labs(
-    title = "Death Rate Average Compared to Vaccination Rate in 2021",
-    subtitle = "Data: https://ourworldindata.org/grapher/covid-vaccination-doses-per-capita",
-    x = "Average Death Rate",
-    y = "Vaccination Rate - Doses per Capita"
-  ) 
-  
-```
-
-## Internet Penetration by region 
-
-## The pie chart shows the %share of internet penetration by region. Since the study focuses on learning loss during covid-19, the graph could is useful to compare if countries with higher internet penetration had a lower learning loss. 
+#### The pie chart shows the % share of internet penetration by region. It is important to note that the figure does not represent total internet penetration across all regions. For instance, 85.3% internet penetration in Advanced Economies means that across 18 countries, the average internet penetration is 85.3%. This may be related to the lower percent decline in test scoeres in Advanced Economies (as shown in Figure 2) Since the study focuses on learning loss during covid-19, the pe graph is useful to explain relationship between countries with higher internet penetration and decline in learning outcomes. 
 
 ```{r, echo=FALSE}
 
@@ -109,7 +118,7 @@ internet_mean <- data %>%
 
 internet_mean %>%
   ggplot(mapping = aes(x = "", y = mean_internet, fill = region_code)) +
-  geom_bar(stat = "identity", width = 1) +
+  geom_bar(stat = "identity", width = 1, , color = "grey") +
   geom_text(aes(label = paste0(round(mean_internet, 1), "%")),
             position = position_stack(vjust = 0.5)) +
   coord_polar(theta = "y") +
@@ -121,6 +130,5 @@ internet_mean %>%
          plot.background = element_rect(fill = "grey"),  
          panel.background = element_rect(fill = "white")) 
          
-
 ```
 
