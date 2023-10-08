@@ -14,7 +14,7 @@ library(ggrepel)
 library(dplyr)
 ```
 
-[Data Sources] (https://microdata.worldbank.org/index.php/catalog/3769/get-microdata)
+[Data Sources](https://microdata.worldbank.org/index.php/catalog/3769/get-microdata)
 
 ## Decline in Test Scores (measured in standard deviation) due to School Closure (measured in number of weeks)
 
@@ -39,9 +39,10 @@ ggplot(data, aes(x = weeks, y = loss, color = "Country")) +
   
 ```
 
+
 ## Decline in Test Scores By Region During 2021 - Measured in Standard Deviation
 
-### The below graph breaks down the decline in test scores during covid-19 by region. According to the data below, South Asia witnessed the highest steepest average decline of over 50%, with Latin America in second place at over 30% and Sub-Saharan Africa averaging around 35%. While these regions did experience the worst declines in grades during CV-19, it's possible some of these figures are skewed as each region is not wholly representative. For example, South Asia only includes Bangladesh, India, and Nepal. 
+#### The below graph breaks down the decline in test scores during covid-19 by region. According to the data below, South Asia witnessed the highest steepest average decline of over 50%, with Latin America in second place at over 30% and Sub-Saharan Africa averaging around 35%. While these regions did experience the worst declines in grades during CV-19, it's possible some of these figures are skewed as each region is not wholly representative. For example, South Asia only includes Bangladesh, India, and Nepal. 
 
 ```{r}
 
@@ -72,6 +73,8 @@ region_mean %>%
 
 ## Death Versus Vaccination Rates By Region in 2021
 
+#### The graph below depicts death and vaccination rates by regions, highlighting specific countries. While some Advanced Economies exhibited higher vaccination rates and death rates, such as India, Nepal, and Kenya, it's important to note that factors like strict lockdown measures, travel constraints, and variations in data reporting can influence these outcomes. For example, China's stringent lockdowns and high vaccination rates contributed to lower death rates, whereas the US experienced high vaccination rates with varying levels of lockdown enforcement. Additionally, insufficient death reporting in some poorer countries due to administrative challenges is another significant variable to consider.
+
 ```{r second, echo=FALSE}
 
 countries_to_label <- data %>%
@@ -96,12 +99,18 @@ data %>%
 
 ```{r, echo=FALSE}
 
-data %>%
-  ggplot(mapping = aes(x = "", y = internet, fill = region_code)) +
+internet_mean <- data %>%
+  group_by(region_code) %>%
+  summarize(mean_internet = mean(internet))
+
+internet_mean %>%
+  ggplot(mapping = aes(x = "", y = mean_internet, fill = region_code)) +
   geom_bar(stat = "identity", width = 1) +
+  geom_text(aes(label = paste0(round(mean_internet, 1), "%")),
+            position = position_stack(vjust = 0.5)) +
   coord_polar(theta = "y") +
   theme_void(base_family = "Times New Roman") +
-   ggtitle("Internet penetration by region") +
+  ggtitle("Internet penetration by region") +
   theme(plot.title = element_text(hjust = 0.5),
          legend.position = "right",
          legend.title = element_blank(),
