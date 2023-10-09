@@ -24,6 +24,7 @@ library(dplyr)
 
 #### The graph below depicts death and vaccination rates by regions, highlighting specific countries. While some Advanced Economies exhibited higher vaccination rates and death rates, such as India, Nepal, and Kenya, it's important to note that factors like strict lockdown measures, travel constraints, and variations in data reporting can influence these outcomes. For example, China's stringent lockdowns and high vaccination rates contributed to lower death rates, whereas the US experienced high vaccination rates with varying levels of lockdown enforcement. Additionally, insufficient death reporting in some poorer countries due to administrative challenges is another significant variable to consider.
 
+
 ```{r}
 
 data <- read_dta('data/learning_loss_covid_database.dta')
@@ -55,6 +56,7 @@ theme(plot.title = element_text(hjust = 0.5),
 
 #### The below graph breaks down the decline in test scores during covid-19 by region. According to the data below, South Asia witnessed the highest steepest average decline of over 50%, with Latin America in second place at over 30% and Sub-Saharan Africa averaging around 35%. While these regions did experience the worst declines in grades during CV-19, it's possible some of these figures are skewed as each region is not wholly representative. For example, South Asia only includes Bangladesh, India, and Nepal. 
 
+
 ```{r}
 
 suppressWarnings({ 
@@ -63,13 +65,14 @@ custom_colors <- c("olivedrab3", "orange", "steelblue", "pink", "coral", "violet
 
 region_mean <- data %>%
   group_by(region_code) %>%
-  summarize(mean_loss = mean(loss))
+  summarize(mean_loss = mean(loss)) 
 
 region_mean %>%
   ggplot() +
   geom_col(mapping = aes(x = region_code, y = mean_loss, fill = region_code), color = "grey") +
   scale_fill_manual(values = custom_colors) +
   theme_minimal(base_family = "Times New Roman") +
+  scale_y_continuous(labels = scales::percent_format(scale = 1)) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1), panel.border = element_rect(color = "grey", fill = NA, size = 0.5), 
         plot.background = element_rect(color = "black", fill = NA, size = 0.5)) +
   labs(
@@ -89,10 +92,12 @@ region_mean %>%
 
 ``` {r}
 
+suppressWarnings({ 
+
 ggplot(data, aes(x = weeks, y = loss, color = "Country")) + 
   geom_point() + 
   geom_smooth(method = "lm", se = FALSE, color = "red", linetype = "dashed") +
-   theme_minimal(base_family = "Times New Roman") +
+  theme_minimal(base_family = "Times New Roman") +
   xlab("Average number of weeks of school closure in 2021") + 
   ylab("Decline in test scores") +
   ggtitle("Decline in test scores due to the duration of school closure") +
@@ -101,7 +106,8 @@ ggplot(data, aes(x = weeks, y = loss, color = "Country")) +
          legend.title = element_blank(),
          plot.background = element_rect(fill = "grey"),  
          panel.background = element_rect(fill = "white"))
-
+})
+  
 ```
 
 ## Figure 4: Internet Penetration by region 
@@ -116,7 +122,7 @@ internet_mean <- data %>%
 
 internet_mean %>%
   ggplot(mapping = aes(x = "", y = mean_internet, fill = region_code)) +
-  geom_bar(stat = "identity", width = 1, , color = "grey") +
+  geom_bar(stat = "identity", width = 1, color = "grey") +
   geom_text(aes(label = paste0(round(mean_internet, 1), "%")),
             position = position_stack(vjust = 0.5)) +
   coord_polar(theta = "y") +
