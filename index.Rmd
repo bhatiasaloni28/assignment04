@@ -25,7 +25,7 @@ library(dplyr)
 #### The graph below depicts death and vaccination rates by regions, highlighting specific countries. While some Advanced Economies exhibited higher vaccination rates and death rates, such as India, Nepal, and Kenya, it's important to note that factors like strict lockdown measures, travel constraints, and variations in data reporting can influence these outcomes. For example, China's stringent lockdowns and high vaccination rates contributed to lower death rates, whereas the US experienced high vaccination rates with varying levels of lockdown enforcement. Additionally, insufficient death reporting in some poorer countries due to administrative challenges is another significant variable to consider.
 
 
-```{r second, echo=FALSE}
+```{r}
 
 data <- read_dta('data/learning_loss_covid_database.dta')
 
@@ -56,8 +56,9 @@ theme(plot.title = element_text(hjust = 0.5),
 
 #### The below graph breaks down the decline in test scores during covid-19 by region. According to the data below, South Asia witnessed the highest steepest average decline of over 50%, with Latin America in second place at over 30% and Sub-Saharan Africa averaging around 35%. While these regions did experience the worst declines in grades during CV-19, it's possible some of these figures are skewed as each region is not wholly representative. For example, South Asia only includes Bangladesh, India, and Nepal. 
 
+<<<<<<< HEAD
 
-```{r, echo=FALSE}
+```{r}
 
 suppressWarnings({ 
 
@@ -89,8 +90,7 @@ region_mean %>%
 
 #### The graph below shows decline in test scores due to the number of weeks that schools remained closed in 41 countries. The upward sloping trend line depicts a positive relationship between declinee in test scores (measured in standard deviation) and weeks of school closure. The points of the scatter plot represent countries with varying levels of test score decline  and weeks of school closure. 
 
-
-``` {r, echo=FALSE}
+``` {r}
 
 suppressWarnings({ 
 
@@ -106,14 +106,14 @@ ggplot(data, aes(x = weeks, y = loss, color = "Country")) +
          legend.title = element_blank(),
          plot.background = element_rect(fill = "grey"),  
          panel.background = element_rect(fill = "white"))
-}) 
+
 ```
 
 ## Figure 4: Internet Penetration by region 
 
 #### The pie chart shows the % share of internet penetration by region. It is important to note that the figure does not represent total internet penetration across all regions. For instance, 85.3% internet penetration in Advanced Economies means that across 18 countries, the average internet penetration is 85.3%. This may be related to the lower percent decline in test scoeres in Advanced Economies (as shown in Figure 2) Since the study focuses on learning loss during covid-19, the pe graph is useful to explain relationship between countries with higher internet penetration and decline in learning outcomes. 
 
-```{r, echo=FALSE}
+```{r}
 
 internet_mean <- data %>%
   group_by(region_code) %>%
