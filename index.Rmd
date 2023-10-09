@@ -106,7 +106,7 @@ ggplot(data, aes(x = weeks, y = loss, color = "Country")) +
 
 ## Figure 4: Internet Penetration by region 
 
-#### The pie chart shows the % share of internet penetration by region. It is important to note that the figure does not represent total internet penetration across all regions. For instance, 85.3% internet penetration in Advanced Economies means that across 18 countries, the average internet penetration is 85.3%. This may be related to the lower percent decline in test scoeres in Advanced Economies (as shown in Figure 2) Since the study focuses on learning loss during covid-19, the pe graph is useful to explain relationship between countries with higher internet penetration and decline in learning outcomes. 
+#### The pie chart shows the % share of internet penetration by region. It is important to note that the figure does not represent total internet penetration across all regions. For instance, 85.3% internet penetration in Advanced Economies means that across 18 countries, the average internet penetration is 85.3%. This may be related to the lower percent decline in test scoeres in Advanced Economies (as shown in Figure 2) Since the study focuses on learning loss during covid-19, the pie graph is useful to explain relationship between countries with higher internet penetration and learning outcomes. 
 
 ```{r}
 
